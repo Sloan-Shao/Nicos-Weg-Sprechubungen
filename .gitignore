@@ -1,0 +1,23 @@
+﻿# Debug logs and caches
+.debug-logs/
+.pytest_cache/
+__pycache__/
+*.pyc
+
+# Obsidian workspace cache (keep config, ignore cache files)
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
+.obsidian/plugins/*/data.json
+
+# OS files
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Backup and log files
+*.bak*
+*.bak-*
+debug.log
+*.log
+

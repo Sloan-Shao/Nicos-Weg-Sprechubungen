@@ -1,0 +1,3 @@
+display_name: Nicos Weg Dialogue Note
+short_description: Generate Obsidian notes from DW Nicos Weg dialogue exercises.
+default_prompt: Generate a Nicos Weg Obsidian lesson note from a DW Learn German exercise URL.
