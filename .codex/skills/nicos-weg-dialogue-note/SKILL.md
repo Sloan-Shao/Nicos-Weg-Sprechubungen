@@ -17,12 +17,13 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
    ```
 
 3. Ensure every run writes a debug log. If the caller does not pass `--log-file`, the script writes one under `OUTPUT_DIR/.debug-logs/`.
-4. If the script generated prompt-card files, open each split prompt-card file and refine only the Chinese text in `你要表达` and `一级提示：中文意思` so it reads like natural Chinese learning goals. Do not change German reference answers, keywords, sentence patterns, source headings, speaker names, or turn order.
+4. If the script generated prompt-card files, open each split prompt-card file and translate/refine only the Chinese text in `你要表达` and `一级提示：中文意思` so it reads like natural Chinese learning goals. These two fields must contain only the corresponding Chinese meaning and must not contain the full German source sentence. Do not change German reference answers, keywords, sentence patterns, source headings, speaker names, or turn order.
 5. Before reporting completion, inspect the generated main note and prompt cards for display regressions:
    - It must not contain `????`, `�`, or other replacement characters in Chinese labels.
    - It must not contain raw `<details>` or `<summary>` HTML.
    - Main note dialogue/source text must not contain residual bold-speaker artifacts such as `**Selma: **`, `**Nico: **`, or the regex `\*\*[A-ZÄÖÜẞ][^*]{0,40}: \*\*`; speaker labels must render as `**Selma:** text`.
    - Reference answers must use nested Obsidian callouts: `> > [!example]- 参考答案`.
+   - In prompt cards, `你要表达` and `一级提示：中文意思` must not contain the full German answer sentence; if they still say `请补充中文意思`, replace them with a natural Chinese translation using Codex before reporting completion.
 6. Report the generated main note path, every prompt-card path when present, and debug log path to the user.
 
 ## Script behavior
@@ -55,7 +56,7 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
 - Grammar tables should be preserved as readable HTML tables with borders and cell padding; do not flatten them into plain text columns.
 - Use `<strong>` inside HTML tables instead of Markdown `**bold**`.
 - Outside HTML tables, speaker names should be bolded with the colon inside the bold span and no trailing space inside bold markup: `**Speaker:** Text`, never `**Speaker: **Text`. Placeholder/answer emphasis such as `**so**`, `**wie**`, `**genauso**` is allowed.
-- Prompt cards are for A1/A2 speaking practice: keep the Obsidian callout structure, German keywords, sentence-pattern hints, and collapsible reference answers stable; only improve the Chinese learner-facing prompts after generation.
+- Prompt cards are for A1/A2 speaking practice: keep the Obsidian callout structure stable. Field rules are strict: `你要表达` and `一级提示：中文意思` contain only Chinese meaning; `二级提示：关键词` contains German keywords; `三级提示：句型` contains the German sentence pattern; `参考答案` contains the complete German answer. After generation, use the current Codex session to translate placeholder Chinese prompts such as `请补充中文意思`; do not add a separate LLM/API call to the script.
 - Preserve UTF-8 Chinese text when editing generated Markdown. If a console displays Chinese as `????`, do not copy that mojibake back into files; inspect/write files with explicit UTF-8.
 - Keep detailed debug logs for all project work.
 - For GitHub clone operations in any future extension, use the system proxy as required by the user's project instruction.

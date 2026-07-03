@@ -424,8 +424,7 @@ def extract_sentence_pattern(answer: str) -> str:
 
 
 def build_chinese_target(answer: str) -> str:
-    clean = strip_markdown(answer)
-    return f"请用德语表达这句话的意思：{clean}"
+    return "请补充中文意思"
 
 
 def extract_dialogue_turns(text: str, source: str) -> list[DialogueTurn]:

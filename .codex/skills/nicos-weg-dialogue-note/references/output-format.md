@@ -66,6 +66,16 @@ Do not create empty prompt-card files. If no turns are found, keep only the othe
 
 Prompt-card structure uses Obsidian callouts and nested reference-answer callouts, never raw `<details>` / `<summary>`.
 
+Within each prompt-card turn, field content is fixed:
+
+- `你要表达`: only the Chinese meaning of the German answer; never include the full German source sentence.
+- `一级提示：中文意思`: only the same/natural Chinese meaning; never include the full German source sentence.
+- `二级提示：关键词`: German keywords only.
+- `三级提示：句型`: German sentence-pattern hint only.
+- `参考答案`: the complete German answer.
+
+The script may emit the placeholder `请补充中文意思` for the Chinese fields. Before delivery, the running Codex agent must replace those placeholders with natural Chinese translations without changing German keywords, sentence patterns, or reference answers. Do not add a separate LLM/API dependency to the script for this translation.
+
 Speaker parsing must treat `**Nico:**`, `**Nico**:`, `Nico:`, `> **Nico**:`, and HTML-converted `**Selma: **Wir...` variants as speaker starts, not as continuation text. Render normalized speaker labels as `**Nico:** text`, with the colon inside bold markup and no trailing space before the closing `**`.
 
 ## Display QA requirements
@@ -73,6 +83,7 @@ Speaker parsing must treat `**Nico:**`, `**Nico**:`, `Nico:`, `> **Nico**:`, and
 - Main notes and prompt cards must not contain `????`, `�`, or mojibake in Chinese labels such as `参考答案`.
 - Main exercise/source text must not contain residual bold-speaker artifacts matching examples like `**Selma: **`, `**Ibrahim: **`, `**Aya: **`, `**Nico: **`, or `**Tarek: **`; only normal answer emphasis like `**so**` is allowed.
 - Reference-answer headings must appear exactly as `> > [!example]- 参考答案`.
+- Prompt-card `你要表达` and `一级提示：中文意思` must not contain the full German reference answer.
 - Do not use raw `<details>` / `<summary>` for reference answers inside callouts.
 - Vocabulary and common-expression audio columns must stay wide enough for Obsidian playback controls.
 - When inspecting or rewriting generated Markdown on Windows, read and write with explicit UTF-8; do not paste Chinese text from a garbled console.

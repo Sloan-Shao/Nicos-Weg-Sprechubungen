@@ -297,6 +297,21 @@ def test_render_dialogue_prompt_card_contains_callout_keywords_pattern_details()
     assert "Ich wünsche mir so einen Laden." in rendered
 
 
+def test_prompt_card_chinese_target_fields_do_not_include_full_german_answer():
+    answer = "Ich wünsche mir so einen Laden."
+    turns = mod.extract_dialogue_turns(f"**NICO:**\n{answer}", "课文对话")
+    rendered = mod.render_dialogue_prompt_card(make_lesson_data(), turns)
+
+    assert f"> **你要表达：** {answer}" not in rendered
+    assert f"> {answer}\n>\n> **二级提示：关键词**" not in rendered
+    assert "> **你要表达：** 请补充中文意思" in rendered
+    assert "> 请补充中文意思\n>\n> **二级提示：关键词**" in rendered
+    assert "wünsche" in rendered
+    assert "Laden" in rendered
+    assert "Ich wünsche mir ..." in rendered
+    assert f"> > {answer}" in rendered
+
+
 def test_write_dialogue_prompt_card_skips_without_dialogue(tmp_path):
     data = make_lesson_data()
     note_path = tmp_path / "note.md"

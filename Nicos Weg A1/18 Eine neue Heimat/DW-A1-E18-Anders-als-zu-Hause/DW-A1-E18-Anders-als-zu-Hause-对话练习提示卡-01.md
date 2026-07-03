@@ -17,13 +17,13 @@ tags:
 ## 对话练习 1
 
 > [!question]- 第 1 轮：Selma
-> **你要表达：** 请用德语表达这句话的意思：Ich vermisse unsere alte Heimat. Ihr auch?
+> **你要表达：** 我想念我们以前的家乡。你们也想吗？
 >
 > **一级提示：中文意思**
-> 请用德语表达这句话的意思：Ich vermisse unsere alte Heimat. Ihr auch?
+> 我想念我们以前的家乡。你们也想吗？
 >
 > **二级提示：关键词**
-> vermisse / unsere / alte / Heimat
+> 想念 / 以前的家乡 / 你们也想吗
 >
 > **三级提示：句型**
 > Ich vermisse unsere ...?
@@ -32,13 +32,13 @@ tags:
 > > Ich vermisse unsere alte Heimat. Ihr auch?
 
 > [!question]- 第 2 轮：Ibrahim
-> **你要表达：** 请用德语表达这句话的意思：Natürlich. Mir fehlt Syrien sehr. Ich denke fast jeden Tag an unsere Heimat. Mir fehlen meine Eltern, unser großes Haus, unser altes Leben und natürlich auch das Essen.
+> **你要表达：** 当然。我非常想念叙利亚。我几乎每天都想起我们的家乡。我想念我的父母、我们的大房子、以前的生活，当然还有那里的食物。
 >
 > **一级提示：中文意思**
-> 请用德语表达这句话的意思：Natürlich. Mir fehlt Syrien sehr. Ich denke fast jeden Tag an unsere Heimat. Mir fehlen meine Eltern, unser großes Haus, unser altes Leben und natürlich auch das Essen.
+> 当然。我非常想念叙利亚。我几乎每天都想起我们的家乡。我想念我的父母、我们的大房子、以前的生活，当然还有那里的食物。
 >
 > **二级提示：关键词**
-> Natürlich / fehlt / Syrien / denke / fast
+> 当然 / 想念叙利亚 / 每天 / 父母 / 食物
 >
 > **三级提示：句型**
 > Natürlich Mir ...
@@ -47,13 +47,13 @@ tags:
 > > Natürlich. Mir fehlt Syrien sehr. Ich denke fast jeden Tag an unsere Heimat. Mir fehlen meine Eltern, unser großes Haus, unser altes Leben und natürlich auch das Essen.
 
 > [!question]- 第 3 轮：Aya
-> **你要表达：** 请用德语表达这句话的意思：Ja, mir auch. Hier kann die Familie nicht zusammen sein und wir haben nur eine kleine Wohnung. Das finde ich nicht so gut. Unser Haus in Syrien hat mir besser gefallen.
+> **你要表达：** 是的，我也是。在这里一家人不能在一起，而且我们只有一间小公寓。我觉得这不太好。我更喜欢我们在叙利亚的房子。
 >
 > **一级提示：中文意思**
-> 请用德语表达这句话的意思：Ja, mir auch. Hier kann die Familie nicht zusammen sein und wir haben nur eine kleine Wohnung. Das finde ich nicht so gut. Unser Haus in Syrien hat mir besser gefallen.
+> 是的，我也是。在这里一家人不能在一起，而且我们只有一间小公寓。我觉得这不太好。我更喜欢我们在叙利亚的房子。
 >
 > **二级提示：关键词**
-> Hier / kann / Familie / zusammen / nur
+> 我也是 / 家人不能团聚 / 小公寓 / 叙利亚的房子
 >
 > **三级提示：句型**
 > Ja mir ...
@@ -62,13 +62,13 @@ tags:
 > > Ja, mir auch. Hier kann die Familie nicht zusammen sein und wir haben nur eine kleine Wohnung. Das finde ich nicht so gut. Unser Haus in Syrien hat mir besser gefallen.
 
 > [!question]- 第 4 轮：Ibrahim
-> **你要表达：** 请用德语表达这句话的意思：Ich kann nicht arbeiten und wir müssen die Sprache lernen. Das ist nicht leicht, aber ohne Sprache funktioniert das Leben hier nicht.
+> **你要表达：** 我不能工作，而且我们必须学习这门语言。这并不容易，但没有语言，在这里的生活就无法正常进行。
 >
 > **一级提示：中文意思**
-> 请用德语表达这句话的意思：Ich kann nicht arbeiten und wir müssen die Sprache lernen. Das ist nicht leicht, aber ohne Sprache funktioniert das Leben hier nicht.
+> 我不能工作，而且我们必须学习这门语言。这并不容易，但没有语言，在这里的生活就无法正常进行。
 >
 > **二级提示：关键词**
-> kann / arbeiten / müssen / Sprache / lernen
+> 不能工作 / 学语言 / 不容易 / 生活无法运转
 >
 > **三级提示：句型**
 > Ich kann nicht ...
@@ -77,13 +77,13 @@ tags:
 > > Ich kann nicht arbeiten und wir müssen die Sprache lernen. Das ist nicht leicht, aber ohne Sprache funktioniert das Leben hier nicht.
 
 > [!question]- 第 5 轮：Aya
-> **你要表达：** 请用德语表达这句话的意思：Ich möchte irgendwann wieder zurück nach Syrien. Aber nur, wenn es sicher ist. Das ist das Wichtigste. Wir können glücklich sein, dass wir erst mal hierbleiben dürfen.
+> **你要表达：** 我希望将来某一天回到叙利亚。但只有在安全的时候才回去。这是最重要的。我们应该庆幸现在可以先留在这里。
 >
 > **一级提示：中文意思**
-> 请用德语表达这句话的意思：Ich möchte irgendwann wieder zurück nach Syrien. Aber nur, wenn es sicher ist. Das ist das Wichtigste. Wir können glücklich sein, dass wir erst mal hierbleiben dürfen.
+> 我希望将来某一天回到叙利亚。但只有在安全的时候才回去。这是最重要的。我们应该庆幸现在可以先留在这里。
 >
 > **二级提示：关键词**
-> möchte / irgendwann / wieder / zurück / Syrien
+> 将来 / 回叙利亚 / 安全 / 最重要 / 暂时留下
 >
 > **三级提示：句型**
 > Ich möchte irgendwann ...
