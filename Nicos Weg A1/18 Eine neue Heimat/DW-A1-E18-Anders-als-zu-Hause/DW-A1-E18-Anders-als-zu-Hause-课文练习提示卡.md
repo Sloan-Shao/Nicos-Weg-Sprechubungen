@@ -23,7 +23,7 @@ tags:
 > 你怎么想，塞尔玛？
 >
 > **二级提示：关键词**
-> 怎么想 / 塞尔玛
+> was denkst du / Selma
 >
 > **三级提示：句型**
 > Was denkst ...?
@@ -38,7 +38,7 @@ tags:
 > 我不知道。其实我应该感到高兴。我们现在可以留在德国了，但是……
 >
 > **二级提示：关键词**
-> 不知道 / 应该高兴 / 留在德国 / 但是
+> ich weiß es nicht / glücklich sein / in Deutschland bleiben / aber
 >
 > **三级提示：句型**
 > Ich weiß es ...
@@ -53,7 +53,7 @@ tags:
 > 这不是你的家乡。
 >
 > **二级提示：关键词**
-> 不是 / 你的家乡
+> nicht / deine Heimat
 >
 > **三级提示：句型**
 > Das ist ...
@@ -68,7 +68,7 @@ tags:
 > 不，它是另一个……一个新的家。我觉得德国很美。
 >
 > **二级提示：关键词**
-> 另一个家 / 新家乡 / 德国很美
+> andere Heimat / neue Heimat / Deutschland schön
 >
 > **三级提示：句型**
 > Doch Es ...
@@ -83,7 +83,7 @@ tags:
 > 但是德国和以前的家乡、和叙利亚不一样，对吧？
 >
 > **二级提示：关键词**
-> 德国 / 以前的家乡 / 叙利亚 / 不一样
+> Deutschland / alte Heimat / Syrien / anders als
 >
 > **三级提示：句型**
 > Aber Deutschland ...?
@@ -98,7 +98,7 @@ tags:
 > 是的。食物不一样，天气不一样，语言不一样，人也不一样。一切都不一样。
 >
 > **二级提示：关键词**
-> 食物 / 天气 / 语言 / 人 / 都不一样
+> Essen / Wetter / Sprache / Menschen / alles anders
 >
 > **三级提示：句型**
 > Ja Das ...
@@ -113,7 +113,7 @@ tags:
 > 你们在叙利亚也像德国一样有春夏秋冬吗？
 >
 > **二级提示：关键词**
-> 叙利亚 / 春夏秋冬 / 像德国一样
+> in Syrien / Frühling, Sommer, Herbst und Winter / wie in Deutschland
 >
 > **三级提示：句型**
 > Habt ihr ...?
@@ -128,7 +128,7 @@ tags:
 > 是的，我们也有季节。但冬天没有那么冷。
 >
 > **二级提示：关键词**
-> 也有季节 / 冬天 / 不那么冷
+> auch Jahreszeiten / im Winter / nicht so kalt
 >
 > **三级提示：句型**
 > Ja wir ...
@@ -143,7 +143,7 @@ tags:
 > 那食物呢？
 >
 > **二级提示：关键词**
-> 食物呢
+> das Essen
 >
 > **三级提示：句型**
 > Und das ...?
@@ -158,7 +158,7 @@ tags:
 > 我们吃很多肉。在我们那里素食者不多。但最重要的是，叙利亚不像德国有这么多规矩。而且街上的生活气息更浓，尤其是在晚上。商店营业时间更长，人们都在外面。一切都更随性、更轻松一些。是的，其实几乎一切都不一样。但我觉得德国这里的人和叙利亚的人一样友好。
 >
 > **二级提示：关键词**
-> 吃很多肉 / 素食者少 / 规矩少 / 街上生活 / 人很友好
+> viel Fleisch / nicht viele Vegetarier / nicht so viele Regeln / Leben auf der Straße / genauso nett
 >
 > **三级提示：句型**
 > Wir essen viel ...

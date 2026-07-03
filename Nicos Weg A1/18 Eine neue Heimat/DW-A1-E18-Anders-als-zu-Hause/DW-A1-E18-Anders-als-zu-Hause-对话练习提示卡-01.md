@@ -23,7 +23,7 @@ tags:
 > 我想念我们以前的家乡。你们也想吗？
 >
 > **二级提示：关键词**
-> 想念 / 以前的家乡 / 你们也想吗
+> vermissen / alte Heimat / ihr auch
 >
 > **三级提示：句型**
 > Ich vermisse unsere ...?
@@ -38,7 +38,7 @@ tags:
 > 当然。我非常想念叙利亚。我几乎每天都想起我们的家乡。我想念我的父母、我们的大房子、以前的生活，当然还有那里的食物。
 >
 > **二级提示：关键词**
-> 当然 / 想念叙利亚 / 每天 / 父母 / 食物
+> natürlich / Syrien fehlt mir / fast jeden Tag / Eltern / Essen
 >
 > **三级提示：句型**
 > Natürlich Mir ...
@@ -53,7 +53,7 @@ tags:
 > 是的，我也是。在这里一家人不能在一起，而且我们只有一间小公寓。我觉得这不太好。我更喜欢我们在叙利亚的房子。
 >
 > **二级提示：关键词**
-> 我也是 / 家人不能团聚 / 小公寓 / 叙利亚的房子
+> mir auch / Familie nicht zusammen / kleine Wohnung / Haus in Syrien
 >
 > **三级提示：句型**
 > Ja mir ...
@@ -68,7 +68,7 @@ tags:
 > 我不能工作，而且我们必须学习这门语言。这并不容易，但没有语言，在这里的生活就无法正常进行。
 >
 > **二级提示：关键词**
-> 不能工作 / 学语言 / 不容易 / 生活无法运转
+> nicht arbeiten / Sprache lernen / nicht leicht / Leben funktioniert nicht
 >
 > **三级提示：句型**
 > Ich kann nicht ...
@@ -83,7 +83,7 @@ tags:
 > 我希望将来某一天回到叙利亚。但只有在安全的时候才回去。这是最重要的。我们应该庆幸现在可以先留在这里。
 >
 > **二级提示：关键词**
-> 将来 / 回叙利亚 / 安全 / 最重要 / 暂时留下
+> irgendwann / zurück nach Syrien / sicher / das Wichtigste / hierbleiben
 >
 > **三级提示：句型**
 > Ich möchte irgendwann ...

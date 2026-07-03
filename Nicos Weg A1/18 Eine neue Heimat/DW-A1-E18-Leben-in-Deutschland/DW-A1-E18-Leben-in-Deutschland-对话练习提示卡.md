@@ -23,7 +23,7 @@ tags:
 > 我们祝你好胃口！
 >
 > **二级提示：关键词**
-> 祝你好胃口
+> guten Appetit
 >
 > **三级提示：句型**
 > Wir wünschen guten ...
@@ -38,7 +38,7 @@ tags:
 > 睁开眼睛！
 >
 > **二级提示：关键词**
-> 睁开眼睛
+> Augen auf
 >
 > **三级提示：句型**
 > Augen auf ...
@@ -53,7 +53,7 @@ tags:
 > 海鲜饭！
 >
 > **二级提示：关键词**
-> 海鲜饭
+> Paella
 >
 > **三级提示：句型**
 > Paella ...
@@ -68,7 +68,7 @@ tags:
 > 我们希望你会喜欢。你肯定已经不想再吃德国菜了，对吧？
 >
 > **二级提示：关键词**
-> 希望合口味 / 不想吃德国菜 / 对吧
+> schmeckt dir / keine Lust mehr auf deutsches Essen / oder
 >
 > **三级提示：句型**
 > Wir hoffen es ...?
@@ -83,7 +83,7 @@ tags:
 > 我觉得德国菜很好吃。我喜欢香肠、肉卷和炖牛肉。但我最喜欢海鲜饭！
 >
 > **二级提示：关键词**
-> 德国菜好吃 / 香肠 / 肉卷 / 炖牛肉 / 最爱海鲜饭
+> deutsches Essen lecker / Wurst / Rouladen / Gulasch / am liebsten Paella
 >
 > **三级提示：句型**
 > Ich finde deutsches ...
@@ -98,7 +98,7 @@ tags:
 > 你得先尝一尝！
 >
 > **二级提示：关键词**
-> 先尝一尝
+> zuerst probieren
 >
 > **三级提示：句型**
 > Du musst zuerst ...
@@ -113,7 +113,7 @@ tags:
 > 尝起来就像在西班牙！塔雷克：哈！
 >
 > **二级提示：关键词**
-> 像在西班牙 / 哈
+> wie in Spanien / Ha
 >
 > **三级提示：句型**
 > Schmeckt wie ...
@@ -128,7 +128,7 @@ tags:
 > 这是很高的赞美！
 >
 > **二级提示：关键词**
-> 很高的赞美
+> großes Kompliment
 >
 > **三级提示：句型**
 > Das ist ...
@@ -143,7 +143,7 @@ tags:
 > 我有时会想念西班牙菜。
 >
 > **二级提示：关键词**
-> 有时 / 想念西班牙菜
+> manchmal / spanisches Essen vermissen
 >
 > **三级提示：句型**
 > Spanisches Essen ...
@@ -158,7 +158,7 @@ tags:
 > 这个我理解……
 >
 > **二级提示：关键词**
-> 我理解
+> das versteh ich
 >
 > **三级提示：句型**
 > Das versteh ...
@@ -173,7 +173,7 @@ tags:
 > 你有点想家吗？
 >
 > **二级提示：关键词**
-> 有点 / 想家
+> ein bisschen / Heimweh
 >
 > **三级提示：句型**
 > Hast du ...?
@@ -188,7 +188,7 @@ tags:
 > 想家？
 >
 > **二级提示：关键词**
-> 想家
+> Heimweh
 >
 > **三级提示：句型**
 > Heimweh ...?
@@ -203,7 +203,7 @@ tags:
 > 是的，想家。就是一个人很难过，想回家的时候。
 >
 > **二级提示：关键词**
-> 想家 / 难过 / 想回家
+> Heimweh / traurig / nach Hause möchten
 >
 > **三级提示：句型**
 > Ja Heimweh ...
@@ -218,7 +218,7 @@ tags:
 > 啊，原来如此！不，我不想家。我喜欢这里。不过我有点想念我的朋友们。而且西班牙的天气更好。那里不常下雨，也更暖和。
 >
 > **二级提示：关键词**
-> 不想家 / 喜欢这里 / 想念朋友 / 西班牙天气更好
+> kein Heimweh / mir gefällt es hier / Freunde vermissen / Wetter in Spanien besser
 >
 > **三级提示：句型**
 > Ach so ...
@@ -233,7 +233,7 @@ tags:
 > 我马上要去雅拉的店里给花浇水。你想一起去吗？
 >
 > **二级提示：关键词**
-> 去雅拉的店 / 给花浇水 / 一起去
+> in Yaras Laden / Blumen gießen / mitkommen
 >
 > **三级提示：句型**
 > Ich gehe gleich ...?
@@ -248,7 +248,7 @@ tags:
 > 好啊，很乐意。
 >
 > **二级提示：关键词**
-> 好啊 / 很乐意
+> ja / gerne
 >
 > **三级提示：句型**
 > Ja gerne ...
@@ -263,7 +263,7 @@ tags:
 > 好吧。不过你先吃完！
 >
 > **二级提示：关键词**
-> 好吧 / 先吃完
+> okay / erst aufessen
 >
 > **三级提示：句型**
 > Okay Aber ...
@@ -280,7 +280,7 @@ tags:
 > 你想念西班牙菜吗？会怀念它吗？
 >
 > **二级提示：关键词**
-> 想念西班牙菜 / 怀念
+> spanisches Essen fehlt dir / vermisst du es
 >
 > **三级提示：句型**
 > Fehlt dir ...?
@@ -295,7 +295,7 @@ tags:
 > 是的，我有时会想念西班牙菜。你呢，塔雷克？你想念土耳其菜吗？
 >
 > **二级提示：关键词**
-> 有时想念西班牙菜 / 塔雷克 / 土耳其菜
+> manchmal fehlt mir das spanische Essen / Tarek / türkisches Essen
 >
 > **三级提示：句型**
 > Ja manchmal ...?
@@ -310,7 +310,7 @@ tags:
 > 是的，我有时会想念土耳其菜。不过幸运的是，德国这里有很多不错的土耳其餐馆。
 >
 > **二级提示：关键词**
-> 有时想念土耳其菜 / 德国 / 土耳其餐馆
+> manchmal fehlt mir das türkische Essen / Deutschland / türkische Restaurants
 >
 > **三级提示：句型**
 > Ja manchmal ...
@@ -327,7 +327,7 @@ tags:
 > 你喜欢在德国的生活吗？你喜欢这里吗？
 >
 > **二级提示：关键词**
-> 喜欢德国生活 / 喜欢这里
+> Leben in Deutschland mögen / gefällt es dir hier
 >
 > **三级提示：句型**
 > Magst du ...?
@@ -342,7 +342,7 @@ tags:
 > 是的，我很喜欢在德国的生活。我喜欢这里的人和食物……只是德国的天气我不太喜欢。
 >
 > **二级提示：关键词**
-> 德国生活好 / 喜欢人和食物 / 不喜欢天气
+> Leben in Deutschland gefällt mir gut / Leute und Essen / Wetter nicht so gut
 >
 > **三级提示：句型**
 > Ja das ...
@@ -357,7 +357,7 @@ tags:
 > 是啊，西班牙的天气更好，对吧？德国这里的天气我也不太喜欢。在土耳其也更暖和、更晴朗。
 >
 > **二级提示：关键词**
-> 西班牙天气更好 / 德国天气不好 / 土耳其更暖和晴朗
+> Wetter in Spanien besser / Wetter in Deutschland nicht so gut / Türkei wärmer und sonniger
 >
 > **三级提示：句型**
 > Ja das ...
