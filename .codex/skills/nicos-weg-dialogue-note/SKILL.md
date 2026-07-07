@@ -10,13 +10,13 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
 ## Workflow
 
 1. Read `references/output-format.md` if you need to inspect the exact note layout.
-2. Run the bundled script from the workspace or desired output folder:
+2. Run the bundled script from the workspace. Prefer passing the Nicos Weg vault root as `--out-dir`; the script resolves the final course/unit/lesson folder:
 
    ```powershell
-   python "E:\workspace\Nicos-Weg-Sprechübungen\.codex\skills\nicos-weg-dialogue-note\scripts\fetch_nicos_weg_lesson.py" "DW_EXERCISE_URL_1" "DW_EXERCISE_URL_2" --out-dir "OUTPUT_DIR"
+   python "E:\workspace\Nicos-Weg-Sprechübungen\.codex\skills\nicos-weg-dialogue-note\scripts\fetch_nicos_weg_lesson.py" "DW_EXERCISE_URL_1" "DW_EXERCISE_URL_2" --out-dir "E:\workspace\Nicos-Weg-Sprechübungen"
    ```
 
-3. Ensure every run writes a debug log. If the caller does not pass `--log-file`, the script writes one under `OUTPUT_DIR/.debug-logs/`.
+3. Ensure every run writes a debug log. If the caller does not pass `--log-file`, the script writes one under the resolved final lesson folder's `.debug-logs/`.
 4. If the script generated prompt-card files, open each split prompt-card file and translate/refine only the Chinese text in `你要表达` and `一级提示：中文意思` so it reads like natural Chinese learning goals. These two fields must contain only the corresponding Chinese meaning and must not contain the full German source sentence. Do not change German reference answers, keywords, sentence patterns, source headings, speaker names, or turn order.
 5. Before reporting completion, inspect the generated main note and prompt cards for display regressions:
    - It must not contain `????`, `�`, or other replacement characters in Chinese labels.
@@ -33,6 +33,13 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
 - Parse `window.__APOLLO_STATE__` for exercises, inquiries, content links, knowledges, grammar, vocabulary, and manuscript data.
 - Fill cloze `#p#` placeholders using discovered sub-inquiry answers when present; unresolved placeholders become `____`. For reading-comprehension pages, use `Exercise.inputText` as the source/reading text and keep multiple-choice answers only in the answer table.
 - Download answer-feedback audio, source audio when DW exposes it, and vocabulary MP3s into `audio/`; if a download fails, keep the remote URL in the note and log the exception. Do not label Loesungsaudio as source/dialogue audio.
+- Resolve vault output folders when `--out-dir` points at the Nicos Weg vault root:
+  - Course folders are `Nicos Weg A1/` and `Nicos Weg A2/`.
+  - Unit folders are named `<two-digit number> <unit name>`, for example `18 Eine neue Heimat`.
+  - Each lesson gets its own folder named from the note stem, for example `DW-A1-E18-Anders-als-zu-Hause`.
+  - The lesson folder contains `audio/`, the main note, and any prompt-card notes.
+  - Existing matching unit folders are reused; missing unit folders are named from the DW Course `groupName` when available, then from the built-in A1/A2 unit-name map.
+  - If the unit code or unit name cannot be resolved, fall back to the provided `--out-dir` and log the fallback instead of guessing.
 - Generate one merged Markdown note with frontmatter, all input exercise pages in input order, source/reading text or solved cloze text, answer tables, answer-feedback audio inside each exercise-page section, one copy of the lesson manuscript, HTML vocabulary table, grammar, expressions, and links. Avoid duplicate top-level exercise-page groups.
 - Name generated folders/files from the course level, detected unit code, and lesson title, not the exercise title or DW internal lesson id. Use `DW-<level>-<E## if found>-<lesson-name>.md`; if no unit code is found, omit the unit and log that fallback.
 - Generate prompt-card Markdown files in the same output folder, split by purpose:
@@ -51,7 +58,8 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
 
 ## Important conventions
 
-- Prefer project output folders inside the Nicos Weg vault, e.g. `Nicos Weg A1/<lesson folder>/<exercise folder>`.
+- Prefer passing the vault root to `--out-dir`; expected output is `Nicos Weg A1|A2/<NN unit name>/<DW-level-unit-lesson>/`.
+- If using legacy mode, passing a final lesson folder directly is allowed; the script then writes the note, prompt cards, and `audio/` in that folder.
 - The vocabulary table and common-expressions table must stay as HTML with fixed-width audio columns; Markdown tables make Obsidian audio controls too narrow or hide play buttons.
 - Grammar tables should be preserved as readable HTML tables with borders and cell padding; do not flatten them into plain text columns.
 - Use `<strong>` inside HTML tables instead of Markdown `**bold**`.

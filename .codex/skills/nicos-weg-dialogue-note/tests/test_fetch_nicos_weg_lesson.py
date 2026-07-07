@@ -88,6 +88,7 @@ def test_render_markdown_uses_expression_practice_heading():
         exercise_name="Exercise",
         exercise_description="说明",
         level="A1",
+        unit_group_name="",
         first_publication_date="",
         overview_parts=[],
         exercise_blocks=[],
@@ -114,6 +115,7 @@ def make_lesson_data(**overrides):
         exercise_name="你想念什么？（1）",
         exercise_description="说明",
         level="A1",
+        unit_group_name="",
         first_publication_date="",
         overview_parts=[],
         exercise_blocks=[],
@@ -384,6 +386,98 @@ def test_render_note_filename_falls_back_without_unit_and_still_omits_internal_i
         exercise_name="你想念什么？（1）",
     )
     assert mod.render_note_filename(data) == "DW-A1-Leben-in-Deutschland.md"
+
+
+def test_resolve_lesson_dir_reuses_existing_a1_unit_dir(tmp_path):
+    vault_root = tmp_path
+    unit_dir = vault_root / "Nicos Weg A1" / "18 Eine neue Heimat"
+    unit_dir.mkdir(parents=True)
+    data = make_lesson_data(
+        level="A1",
+        lesson_name="Anders als zu Hause",
+        exercise_blocks=[
+            mod.ExerciseBlock(1, "", "", "", "", [], "https://example.test/A1_E18_L2_S5_A1_Loesungsaudio.mp3")
+        ],
+    )
+
+    lesson_dir = mod.resolve_lesson_dir(data, vault_root, mod.setup_logger(None))
+
+    assert lesson_dir == unit_dir / "DW-A1-E18-Anders-als-zu-Hause"
+
+
+def test_resolve_lesson_dir_reuses_existing_a2_unit_dir(tmp_path):
+    vault_root = tmp_path
+    unit_dir = vault_root / "Nicos Weg A2" / "01 Geld"
+    unit_dir.mkdir(parents=True)
+    data = make_lesson_data(
+        level="A2",
+        lesson_name="Personen beschreiben",
+        exercise_blocks=[
+            mod.ExerciseBlock(1, "", "", "", "", [], "https://example.test/A2_E01_L1_S1_A1_Loesungsaudio.mp3")
+        ],
+    )
+
+    lesson_dir = mod.resolve_lesson_dir(data, vault_root, mod.setup_logger(None))
+
+    assert lesson_dir == unit_dir / "DW-A2-E01-Personen-beschreiben"
+
+
+def test_resolve_lesson_dir_creates_missing_unit_from_builtin_map(tmp_path):
+    vault_root = tmp_path
+    (vault_root / "Nicos Weg A2").mkdir(parents=True)
+    data = make_lesson_data(
+        level="A2",
+        lesson_name="Something",
+        exercise_blocks=[
+            mod.ExerciseBlock(1, "", "", "", "", [], "https://example.test/A2_E03_L1_S1_A1_Loesungsaudio.mp3")
+        ],
+    )
+
+    lesson_dir = mod.resolve_lesson_dir(data, vault_root, mod.setup_logger(None))
+
+    assert lesson_dir.parent.name.startswith("03 ")
+    assert lesson_dir.parent.exists()
+    assert lesson_dir.name == "DW-A2-E03-Something"
+
+
+def test_resolve_lesson_dir_creates_missing_unit_from_course_group_name(tmp_path):
+    vault_root = tmp_path
+    (vault_root / "Nicos Weg A1").mkdir(parents=True)
+    data = make_lesson_data(
+        level="A1",
+        lesson_name="Anders als zu Hause",
+        unit_group_name="18 新的家乡",
+        exercise_blocks=[
+            mod.ExerciseBlock(1, "", "", "", "", [], "https://example.test/A1_E18_L2_S5_A1_Loesungsaudio.mp3")
+        ],
+    )
+
+    lesson_dir = mod.resolve_lesson_dir(data, vault_root, mod.setup_logger(None))
+
+    assert lesson_dir.parent == vault_root / "Nicos Weg A1" / "18 新的家乡"
+    assert lesson_dir.name == "DW-A1-E18-Anders-als-zu-Hause"
+
+
+def test_resolve_lesson_dir_falls_back_to_passed_dir_without_unit_code(tmp_path):
+    data = make_lesson_data(level="A1", lesson_name="Leben in Deutschland")
+
+    lesson_dir = mod.resolve_lesson_dir(data, tmp_path, mod.setup_logger(None))
+
+    assert lesson_dir == tmp_path
+
+
+def test_prepare_audio_creates_audio_dir_when_download_is_disabled(tmp_path):
+    data = make_lesson_data(
+        exercise_blocks=[
+            mod.ExerciseBlock(1, "", "", "", "", [], "https://example.test/A1_E18_L2_S5_A1_Loesungsaudio.mp3")
+        ],
+    )
+
+    mod.prepare_audio(data, tmp_path, download=False, logger=mod.setup_logger(None))
+
+    assert (tmp_path / "audio").is_dir()
+    assert data.exercise_blocks[0].audio_file == "audio/A1-E18-L2-S5-A1-Loesungsaudio.mp3"
+    assert not (tmp_path / "audio" / "A1-E18-L2-S5-A1-Loesungsaudio.mp3").exists()
 
 
 def test_render_grammar_html_preserves_table_readability():

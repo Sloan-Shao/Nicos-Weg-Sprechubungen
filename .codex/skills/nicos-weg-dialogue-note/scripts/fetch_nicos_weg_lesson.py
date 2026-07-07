@@ -75,6 +75,7 @@ class LessonData:
     exercise_name: str
     exercise_description: str
     level: str
+    unit_group_name: str
     first_publication_date: str
     overview_parts: list[dict[str, Any]]
     exercise_blocks: list[ExerciseBlock]
@@ -109,6 +110,18 @@ GERMAN_STOPWORDS = {
     "zu", "zum", "zur", "im", "in", "am", "an", "auf", "aus", "von", "für", "mit", "nach", "bei",
     "ist", "bin", "bist", "sind", "seid", "war", "waren", "habe", "hast", "hat", "haben",
 }
+UNIT_NAME_BY_LEVEL_AND_NUMBER = {
+    "A1": {
+        17: "Gesundheit",
+        18: "Eine neue Heimat",
+    },
+    "A2": {
+        1: "Geld",
+        2: "Familie",
+        3: "Wohnen",
+    },
+}
+LAST_DEBUG_LOG_FILE: Path | None = None
 
 
 def parse_dw_url(url: str) -> ParsedUrl:
@@ -641,6 +654,19 @@ def level_name(value: Any) -> str:
     return mapping.get(value, str(value or ""))
 
 
+def extract_unit_group_name(state: dict[str, Any], lesson_id: int) -> str:
+    for obj in state.values():
+        if not isinstance(obj, dict) or obj.get("__typename") != "Course":
+            continue
+        for key, value in obj.items():
+            if not key.startswith("contentLinks") or not isinstance(value, list):
+                continue
+            for link in value:
+                if isinstance(link, dict) and link.get("targetId") == lesson_id and link.get("groupName"):
+                    return str(link["groupName"]).strip()
+    return ""
+
+
 def audio_basename(url: str, fallback: str) -> str:
     path = urllib.parse.urlparse(url).path
     name = urllib.parse.unquote(Path(path).name)
@@ -690,6 +716,74 @@ def render_note_stem(data: LessonData) -> str:
 
 def render_note_filename(data: LessonData) -> str:
     return f"{render_note_stem(data)}.md"
+
+
+def unit_number_from_code(unit_code: str | None) -> int | None:
+    if not unit_code:
+        return None
+    match = re.fullmatch(r"E(\d{1,2})", unit_code, flags=re.I)
+    return int(match.group(1)) if match else None
+
+
+def is_vault_root(path: Path) -> bool:
+    return (path / "Nicos Weg A1").is_dir() or (path / "Nicos Weg A2").is_dir()
+
+
+def resolve_unit_dir(data: LessonData, vault_root: Path, logger: logging.Logger) -> Path | None:
+    level = (data.level or "").upper()
+    unit_number = unit_number_from_code(extract_unit_code(data))
+    if level not in {"A1", "A2"} or unit_number is None:
+        logger.info("Vault unit directory fallback: level=%s unit_code=%s", data.level, extract_unit_code(data))
+        return None
+
+    course_dir = vault_root / f"Nicos Weg {level}"
+    if not course_dir.exists():
+        course_dir.mkdir(parents=True, exist_ok=True)
+        logger.info("Created course directory: %s", course_dir)
+
+    prefix = f"{unit_number:02d} "
+    for child in sorted(course_dir.iterdir()):
+        if child.is_dir() and child.name.startswith(prefix):
+            logger.info("Reusing unit directory: %s", child)
+            return child
+
+    unit_name = unit_name_from_group_name(data.unit_group_name, unit_number)
+    if not unit_name:
+        unit_name = UNIT_NAME_BY_LEVEL_AND_NUMBER.get(level, {}).get(unit_number)
+    if not unit_name:
+        logger.info("Unit name mapping missing; cannot create structured unit directory: level=%s unit=%02d", level, unit_number)
+        return None
+    unit_dir = course_dir / f"{unit_number:02d} {unit_name}"
+    unit_dir.mkdir(parents=True, exist_ok=True)
+    logger.info("Created unit directory: %s", unit_dir)
+    return unit_dir
+
+
+def unit_name_from_group_name(group_name: str, unit_number: int) -> str:
+    group_name = group_name.strip()
+    if not group_name:
+        return ""
+    match = re.match(r"^\s*(\d{1,2})\s+(.+?)\s*$", group_name)
+    if match and int(match.group(1)) == unit_number:
+        return match.group(2).strip()
+    return group_name
+
+
+def resolve_lesson_dir(data: LessonData, out_dir: Path, logger: logging.Logger) -> Path:
+    lesson_stem = render_note_stem(data)
+    if out_dir.name == lesson_stem or out_dir.name.startswith("DW-"):
+        logger.info("Using provided lesson directory: %s", out_dir)
+        return out_dir
+    if not is_vault_root(out_dir):
+        logger.info("Provided output dir is not a Nicos Weg vault root; using as final output dir: %s", out_dir)
+        return out_dir
+    unit_dir = resolve_unit_dir(data, out_dir, logger)
+    if not unit_dir:
+        logger.info("Structured vault output unavailable; using provided output dir: %s", out_dir)
+        return out_dir
+    lesson_dir = unit_dir / lesson_stem
+    logger.info("Resolved lesson directory: %s", lesson_dir)
+    return lesson_dir
 
 
 def download_file(url: str, destination: Path, logger: logging.Logger) -> bool:
@@ -808,6 +902,7 @@ def build_lesson_data(url: str, state: dict[str, Any], logger: logging.Logger) -
         exercise_name=exercise_name,
         exercise_description=exercise_description,
         level=level_name(lesson.get("dkLearningLevel")),
+        unit_group_name=extract_unit_group_name(state, parsed.lesson_id),
         first_publication_date=(exercise.get("firstPublicationDate") or lesson.get("firstPublicationDate") or "")[:10],
         overview_parts=lesson.get("overviewParts") or [],
         exercise_blocks=blocks,
@@ -856,6 +951,7 @@ def merge_lesson_data(items: list[LessonData]) -> LessonData:
 
 def prepare_audio(data: LessonData, out_dir: Path, download: bool, logger: logging.Logger) -> None:
     audio_dir = out_dir / "audio"
+    audio_dir.mkdir(parents=True, exist_ok=True)
     used: set[str] = set()
 
     def unique(name: str) -> str:
@@ -1092,7 +1188,32 @@ def setup_logger(log_file: Path | None) -> logging.Logger:
     return logger
 
 
+def add_file_handler(logger: logging.Logger, log_file: Path) -> Path:
+    global LAST_DEBUG_LOG_FILE
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    resolved = log_file.resolve()
+    for handler in logger.handlers:
+        if isinstance(handler, logging.FileHandler) and Path(handler.baseFilename).resolve() == resolved:
+            LAST_DEBUG_LOG_FILE = log_file
+            return log_file
+    formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
+    file_handler = logging.FileHandler(log_file, encoding="utf-8")
+    file_handler.setFormatter(formatter)
+    file_handler.setLevel(logging.DEBUG)
+    logger.addHandler(file_handler)
+    LAST_DEBUG_LOG_FILE = log_file
+    logger.info("Debug log file: %s", log_file)
+    return log_file
+
+
+def default_log_file(out_dir: Path, urls: list[str]) -> Path:
+    safe = safe_filename(urls[0].split("/")[-1] or "run")
+    return out_dir / ".debug-logs" / f"nicos-weg-dialogue-note-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}-{safe}.log"
+
+
 def generate(url: str | list[str], out_dir: Path, *, download: bool = True, log_file: Path | None = None) -> Path:
+    global LAST_DEBUG_LOG_FILE
+    LAST_DEBUG_LOG_FILE = log_file
     logger = setup_logger(log_file)
     logger.info("Start generating Nicos Weg note")
     urls = [url] if isinstance(url, str) else list(url)
@@ -1117,17 +1238,30 @@ def generate(url: str | list[str], out_dir: Path, *, download: bool = True, log_
             items.append(item_data)
         data = merge_lesson_data(items)
         logger.info("Merged lesson=%s pages=%d blocks=%d vocab=%d grammar=%d manuscript_chars=%d", data.lesson_name, len(data.exercise_pages), len(data.exercise_blocks), len(data.vocab), len(data.grammar), len(data.manuscript_markdown))
-        out_dir.mkdir(parents=True, exist_ok=True)
-        prepare_audio(data, out_dir, download, logger)
+        final_out_dir = resolve_lesson_dir(data, out_dir, logger)
+        final_out_dir.mkdir(parents=True, exist_ok=True)
+        logger.info("Final output dir: %s", final_out_dir)
+        if log_file is None:
+            add_file_handler(logger, default_log_file(final_out_dir, urls))
+            logger.info("Start generating Nicos Weg note")
+            logger.info("URL count: %d", len(urls))
+            for i, item in enumerate(urls, 1):
+                logger.info("URL %d: %s", i, item)
+            logger.info("Requested output dir: %s", out_dir)
+            logger.info("Final output dir: %s", final_out_dir)
+            logger.info("Merged lesson=%s pages=%d blocks=%d vocab=%d grammar=%d manuscript_chars=%d", data.lesson_name, len(data.exercise_pages), len(data.exercise_blocks), len(data.vocab), len(data.grammar), len(data.manuscript_markdown))
+        prepare_audio(data, final_out_dir, download, logger)
         filename = render_note_filename(data)
         if not extract_unit_code(data):
             logger.info("Unit code not found; note filename omits unit code and internal lesson id")
-        note_path = out_dir / filename
+        note_path = final_out_dir / filename
         note_path.write_text(render_markdown(data), encoding="utf-8")
         logger.info("Wrote note: %s", note_path)
         write_dialogue_prompt_cards(data, note_path, logger)
         return note_path
     except Exception:
+        if log_file is None and LAST_DEBUG_LOG_FILE is None:
+            add_file_handler(logger, default_log_file(out_dir, urls))
         logger.error("Generation failed:\n%s", traceback.format_exc())
         raise
 
@@ -1139,13 +1273,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--no-download", action="store_true", help="Do not download mp3 files; keep remote URLs")
     parser.add_argument("--log-file", type=Path, default=None, help="Debug log file path")
     args = parser.parse_args(argv)
-    log_file = args.log_file
-    if log_file is None:
-        safe = safe_filename(args.urls[0].split("/")[-1] or "run")
-        log_file = args.out_dir / ".debug-logs" / f"nicos-weg-dialogue-note-{dt.datetime.now().strftime('%Y%m%d-%H%M%S')}-{safe}.log"
-    note = generate(args.urls, args.out_dir, download=not args.no_download, log_file=log_file)
+    note = generate(args.urls, args.out_dir, download=not args.no_download, log_file=args.log_file)
     print(note)
-    print(f"DEBUG_LOG={log_file}")
+    print(f"DEBUG_LOG={LAST_DEBUG_LOG_FILE}")
     return 0
 
 
