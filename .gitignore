@@ -1,7 +1,10 @@
 ﻿# Debug logs and caches
 .debug-logs/
+**/.debug-logs/
 .pytest_cache/
+**/.pytest_cache/
 __pycache__/
+**/__pycache__/
 *.pyc
 
 # Obsidian workspace cache (keep config, ignore cache files)
