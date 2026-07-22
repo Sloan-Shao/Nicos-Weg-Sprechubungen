@@ -12,13 +12,6 @@ tags:
   - NicosWeg
 ---
 
-## 表达练习
-> [!question]- Wähl die fehlenden Wörter in der richtigen Reihenfolge aus.
-> Wähl die fehlenden Wörter in der richtigen Reihenfolge aus.
-
-> [!question]- Wähl die fehlenden Wörter in der richtigen Reihenfolge aus.
-> Wähl die fehlenden Wörter in der richtigen Reihenfolge aus.
-
 ## 对话练习
 ### 📝 练习说明
 
