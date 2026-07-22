@@ -52,6 +52,36 @@ def test_build_lesson_data_preserves_utf8_chinese():
     data = mod.build_lesson_data("https://learngerman.dw.com/zh/x/l-1/e-2", state, mod.setup_logger(None))
     assert data.exercise_name == "你想念什么？（1）"
 
+def test_build_lesson_data_prefers_asset_level_when_metadata_is_wrong():
+    state = {
+        "Lesson:1": {
+            "id": 1,
+            "name": "Generationen",
+            "language": "CHINESE",
+            "namedUrl": "/zh/generationen/l-1",
+            "dkLearningLevel": 0,
+            "overviewParts": [],
+        },
+        "Exercise:2": {
+            "id": 2,
+            "name": "Lisa和祖母Edith（1）",
+            "description": "<p>说明</p>",
+            "inquiries": [{"__ref": "Inquiry:3"}],
+        },
+        "Inquiry:3": {
+            "inquiryText": "Was passt wo?",
+            'contentLinks({"targetTypes":["AUDIO"]})': [{"__ref": "ContentLink:4"}],
+        },
+        "ContentLink:4": {
+            "target": {
+                "mp3Src": "https://radiodownloaddw-a.akamaihd.net/Events/dwelle/deutschkurse/nicosweg/kurse/a2/A2_E2_L3_S10_A1_Audio1.mp3"
+            }
+        },
+    }
+    data = mod.build_lesson_data("https://learngerman.dw.com/zh/x/l-1/e-2", state, mod.setup_logger(None))
+    assert data.level == "A2"
+
+
 def test_fetch_text_quotes_non_ascii_urls(monkeypatch):
     seen = {}
 
@@ -77,7 +107,7 @@ def test_fetch_text_quotes_non_ascii_urls(monkeypatch):
     assert "träume" not in seen["url"]
     assert "tr%C3%A4ume" in seen["url"]
 
-def test_render_markdown_uses_expression_practice_heading():
+def test_render_markdown_omits_expression_practice_section():
     data = mod.LessonData(
         source_url="https://learngerman.dw.com/zh/x/l-1/e-2",
         lang="zh",
@@ -99,10 +129,9 @@ def test_render_markdown_uses_expression_practice_heading():
         expressions=[],
     )
     rendered = mod.render_markdown(data)
-    assert "## 表达练习" in rendered
+    expression_practice_heading = "## " + "".join(chr(x) for x in [0x8868, 0x8fbe, 0x7ec3, 0x4e60])
+    assert expression_practice_heading not in rendered
     assert "\n## 表达\n" not in rendered
-    assert "## 💬 常用表达" in rendered
-
 
 def make_lesson_data(**overrides):
     values = dict(
@@ -283,6 +312,31 @@ def test_split_prompt_card_filenames_and_content(tmp_path):
     assert exercise_heading not in manuscript_text
     assert exercise_heading + " 1" in exercise_text
     assert manuscript_heading not in exercise_text
+
+
+def test_cloze_page_prompt_card_keeps_all_exercise_blocks():
+    blocks = [
+        mod.ExerciseBlock(1, "", "", "<p><strong>Lisa:</strong> #p# eins.</p>", "**Lisa:** Antwort eins.", ["Antwort"], None),
+        mod.ExerciseBlock(2, "", "", "<p><strong>Edith:</strong> #p# zwei.</p>", "**Edith:** Antwort zwei.", ["Antwort"], None),
+        mod.ExerciseBlock(3, "", "", "<p><strong>Lisa:</strong> #p# drei.</p>", "**Lisa:** Antwort drei.", ["Antwort"], None),
+    ]
+    kind, source_text = mod.classify_exercise_page({}, blocks)
+    page = mod.ExercisePage(
+        "https://learngerman.dw.com/zh/x/l-1/e-2",
+        2,
+        "Exercise",
+        "",
+        blocks,
+        [],
+        exercise_kind=kind,
+        source_text_markdown=source_text,
+    )
+    turns = mod.collect_exercise_page_turns(page)
+
+    assert kind == "cloze_text"
+    assert [turn.source for turn in turns] == ["对话练习 1", "对话练习 2", "对话练习 3"]
+    assert [turn.answer for turn in turns] == ["Antwort eins.", "Antwort zwei.", "Antwort drei."]
+
 
 def test_render_dialogue_prompt_card_contains_callout_keywords_pattern_details():
     turns = mod.extract_dialogue_turns("**NICO:**\nIch wünsche mir so einen Laden.", "课文对话")

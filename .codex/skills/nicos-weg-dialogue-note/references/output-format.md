@@ -14,29 +14,28 @@ File and folder names use the course level, detected unit code, and lesson title
 ## Main note
 
 1. YAML frontmatter with `title`, `source`, `course`, `lesson`, `exercise`, `date`, and tags.
-2. `## 表达练习` with Obsidian callout questions from all exercise inquiries.
-3. `## 对话练习` with one complete group per input URL; do not create a separate repeated audio group:
+2. `## 对话练习` with one complete group per input URL; do not create a separate repeated audio group:
    - `### 练习页 1：<exercise name>`
    - `#### 练习说明`
    - `#### 阅读/原文文本` for reading `Exercise.inputText`, or `#### 完整填空文本` for solved cloze `Inquiry.text`.
    - `#### 题目与答案` for questions and answer tables.
    - `#### 答题反馈音频` for Loesungsaudio/answer-feedback audio. If source audio is absent, explicitly say it is not source/dialogue audio.
-4. `## 📉 课文对话 (Manuskript)`
+3. `## 📉 课文对话 (Manuskript)`
    - Speaker names bolded as `**Speaker:** Text`.
    - Normalize DW HTML such as `<strong>Selma: </strong>Wir...`; do not output residual artifacts like `**Selma: **Wir...`.
    - DW vocabulary placeholders bolded when present in the source manuscript.
-5. `## 📎 本课词汇表 (Wortschatz)`
+4. `## 📎 本课词汇表 (Wortschatz)`
    - Use HTML table, not Markdown table.
    - Use `<strong>` for German terms.
    - Use `<audio controls preload="none" src="audio/name.mp3" style="width:240px; max-width:240px;"></audio>` in the audio column.
-6. `## 📑 语法要点`
+5. `## 📑 语法要点`
    - Include each DW `GRAMMAR` knowledge item in lesson order.
    - If there is no `GRAMMAR` knowledge, use grammar-like same-lesson exercise `inputText` such as als/wie comparison summaries.
    - Preserve grammar `<table>` content as readable HTML tables with borders, padding, and full-width layout.
-7. `## 💬 常用表达`
+6. `## 💬 常用表达`
    - Prefer vocabulary items attached to the current exercise page(s).
    - Use an HTML table with a fixed-width audio column.
-8. `## 🔗 相关链接`
+7. `## 🔗 相关链接`
    - Include every input exercise URL, the lesson URL, and DW audio CDN note.
 
 If a section is unavailable in the DW page state, keep the heading and write a short Chinese placeholder such as `（未找到课文对话。）`.

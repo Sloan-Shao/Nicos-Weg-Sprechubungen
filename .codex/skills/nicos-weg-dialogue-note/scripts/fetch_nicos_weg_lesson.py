@@ -349,9 +349,9 @@ def classify_exercise_page(exercise: dict[str, Any], blocks: list[ExerciseBlock]
     input_type = exercise.get("inputType") or ""
     if input_text and strip_tags_to_text(input_text):
         return "reading_text", html_to_markdown(input_text, bold_placeholders=True)
-    for block in blocks:
-        if has_cloze_text(block.raw_text) and block.filled_text:
-            return "cloze_text", block.filled_text
+    cloze_texts = [block.filled_text for block in blocks if has_cloze_text(block.raw_text) and block.filled_text]
+    if cloze_texts:
+        return "cloze_text", "\n\n---\n\n".join(cloze_texts)
     return (input_type.lower() or "exercise"), ""
 
 
@@ -495,6 +495,12 @@ def collect_manuscript_turns(data: LessonData) -> list[DialogueTurn]:
 
 def collect_exercise_page_turns(page: ExercisePage) -> list[DialogueTurn]:
     turns: list[DialogueTurn] = []
+    if page.exercise_kind == "cloze_text":
+        for block in page.exercise_blocks:
+            if block.filled_text:
+                turns.extend(extract_dialogue_turns(block.filled_text, f"对话练习 {block.index}"))
+        if turns:
+            return turns
     if page.source_text_markdown:
         turns.extend(extract_dialogue_turns(page.source_text_markdown, "对话练习 1"))
         if turns:
@@ -652,6 +658,15 @@ def load_combined_state(url: str, logger: logging.Logger) -> tuple[dict[str, Any
 def level_name(value: Any) -> str:
     mapping = {0: "A1", 1: "A2", 2: "B1", 3: "B2", 4: "C1", 5: "C2"}
     return mapping.get(value, str(value or ""))
+
+
+def infer_level_name(metadata_value: Any, candidates: Iterable[Any]) -> str:
+    for value in candidates:
+        text = urllib.parse.unquote(str(value))
+        match = re.search(r"(?:/kurse/|[/_-])(a[12])(?:[/_-])", text, flags=re.I)
+        if match:
+            return match.group(1).upper()
+    return level_name(metadata_value)
 
 
 def extract_unit_group_name(state: dict[str, Any], lesson_id: int) -> str:
@@ -892,6 +907,12 @@ def build_lesson_data(url: str, state: dict[str, Any], logger: logging.Logger) -
         source_audio_url=exercise_source_audio_url(exercise),
     )
     logger.info("Exercise page classified: id=%s name=%s input_type=%s kind=%s source_text_chars=%d source_audio=%s answer_audio_count=%d", parsed.exercise_id, exercise_name, page.input_type, exercise_kind, len(source_text_markdown), bool(page.source_audio_url), sum(1 for b in blocks if b.audio_url))
+    level_candidates: list[Any] = [url, lesson_url, exercise.get("namedUrl", ""), lesson.get("namedUrl", "")]
+    level_candidates.extend(block.audio_url for block in blocks if block.audio_url)
+    if page.source_audio_url:
+        level_candidates.append(page.source_audio_url)
+    level_candidates.extend(entry.audio_url for entry in [*vocab, *expressions] if entry.audio_url)
+
     return LessonData(
         source_url=url,
         lang=parsed.lang,
@@ -901,7 +922,7 @@ def build_lesson_data(url: str, state: dict[str, Any], logger: logging.Logger) -
         lesson_url=lesson_url,
         exercise_name=exercise_name,
         exercise_description=exercise_description,
-        level=level_name(lesson.get("dkLearningLevel")),
+        level=infer_level_name(lesson.get("dkLearningLevel"), level_candidates),
         unit_group_name=extract_unit_group_name(state, parsed.lesson_id),
         first_publication_date=(exercise.get("firstPublicationDate") or lesson.get("firstPublicationDate") or "")[:10],
         overview_parts=lesson.get("overviewParts") or [],
@@ -1095,18 +1116,9 @@ def render_markdown(data: LessonData) -> str:
         "  - NicosWeg",
         "---",
         "",
-        "## 表达练习",
+        "## 对话练习",
+        "",
     ]
-    if data.exercise_blocks:
-        for page_index, page in enumerate(pages, 1):
-            for block in page.exercise_blocks:
-                if block.question:
-                    prefix = f"{page_index}.{block.index}" if len(pages) > 1 else str(block.index)
-                    lines += [f"> [!question]- 练习 {prefix}：{block.question}", f"> {block.question}", ""]
-    else:
-        lines += ["> [!question]- 本页问题", "> 请根据练习内容回答。", ""]
-
-    lines += ["## 对话练习", ""]
     for page_index, page in enumerate(pages, 1):
         page_title = page.exercise_name or data.exercise_name
         lines += [f"### 练习页 {page_index}：{page_title}", ""]

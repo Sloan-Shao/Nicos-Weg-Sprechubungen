@@ -40,7 +40,7 @@ Use this skill to turn one or more same-lesson DW Learn German Nicos Weg exercis
   - The lesson folder contains `audio/`, the main note, and any prompt-card notes.
   - Existing matching unit folders are reused; missing unit folders are named from the DW Course `groupName` when available, then from the built-in A1/A2 unit-name map.
   - If the unit code or unit name cannot be resolved, fall back to the provided `--out-dir` and log the fallback instead of guessing.
-- Generate one merged Markdown note with frontmatter, all input exercise pages in input order, source/reading text or solved cloze text, answer tables, answer-feedback audio inside each exercise-page section, one copy of the lesson manuscript, HTML vocabulary table, grammar, expressions, and links. Avoid duplicate top-level exercise-page groups.
+- Generate one merged Markdown note with frontmatter, all input exercise pages in input order, source/reading text or solved cloze text, answer tables, answer-feedback audio inside each exercise-page section, one copy of the lesson manuscript, HTML vocabulary table, grammar, expressions, and links. Do not generate a separate `## 表达练习` section; keep exercise questions and answers inside each `## 对话练习` page group. Avoid duplicate top-level exercise-page groups.
 - Name generated folders/files from the course level, detected unit code, and lesson title, not the exercise title or DW internal lesson id. Use `DW-<level>-<E## if found>-<lesson-name>.md`; if no unit code is found, omit the unit and log that fallback.
 - Generate prompt-card Markdown files in the same output folder, split by purpose:
   - `<main-note-stem>-课文练习提示卡.md` contains only manuscript dialogue turns.
